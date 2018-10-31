@@ -1,14 +1,29 @@
 package br.com.alura.forum.security.controller.dto.output;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class AuthenticationTokenOutputDto {
 
-	@Getter @Setter
+	public String getTokeType() {
+		return tokeType;
+	}
+
+
+	public void setTokeType(String tokeType) {
+		this.tokeType = tokeType;
+	}
+
+
+	public String getToken() {
+		return token;
+	}
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+
 	private String tokeType;
 	
-	@Getter @Setter
 	private String token;
 	
 	
