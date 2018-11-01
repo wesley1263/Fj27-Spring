@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,10 +19,11 @@ import br.com.alura.forum.security.service.UserService;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
 	private TokenManager tokenManager;
-	private UserDetails userDetails;
+	private UserService userService;
 	
 	public JwtAuthenticationFilter(TokenManager tokenManager, UserService userService){
 		this.tokenManager = tokenManager;
+		this.userService = userService;
 	}
 
 	@Override
@@ -31,7 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		
 		if(tokenManager.isValid(jwt)){
 			Long id = tokenManager.getUserIdFromToken(jwt);
-//			UserDetails userDetails = 
+			UserDetails userDetails = userService.loadUserById(id);
+			
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+			
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		
 		

@@ -15,14 +15,20 @@ import br.com.alura.forum.model.User;
 public class UserService implements UserDetailsService {
 	
 	@Autowired
-	private UserRepository respository;
+	private UserRepository repository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-		Optional<User> possibleUser = respository.findByEmail(email);
+		Optional<User> possibleUser = repository.findByEmail(email);
 		
 		return possibleUser.orElseThrow(()-> new UsernameNotFoundException("Não foi possível encontrar usuário com email: " + email));
+	}
+
+	public UserDetails loadUserById(Long id) {
+		Optional<User> user = repository.findById(id);
+		
+		return user.orElseThrow(()-> new UsernameNotFoundException("Não foi possível encontrar o usuário com o id"));
 	}
 
 }

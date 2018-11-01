@@ -56,7 +56,6 @@ public class Topic {
 	public Topic() {}
 	
 	public Topic(String shortDescription, String content, User owner, Course course) {
-		super();
 		this.shortDescription = shortDescription;
 		this.content = content;
 		this.owner = owner;
